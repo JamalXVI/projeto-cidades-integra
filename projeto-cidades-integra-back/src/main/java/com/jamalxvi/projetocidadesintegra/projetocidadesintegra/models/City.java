@@ -4,15 +4,17 @@ import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name="CITY")
 @Data
 @Builder
-public class City {
+public class City implements Serializable {
 
     @Column(name = "IBGE_ID")
+    @Id
     private Long ibgeId;
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = State.class)
     @JoinColumn(name = "ID_STA")
@@ -21,7 +23,7 @@ public class City {
     private String name;
     @Column(name = "CAPITAL")
     private Boolean capital;
-    @Column(name = "LONG")
+    @Column(name = "LONGI")
     private BigDecimal longitude;
     @Column(name = "LAT")
     private BigDecimal latitude;
