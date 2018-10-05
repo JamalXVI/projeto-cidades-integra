@@ -1,5 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Injectable } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
+import { OpenService } from '../core/service/open.service';
 
 @Component({
   selector: 'app-home',
@@ -12,7 +14,8 @@ export class HomeComponent {
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private openService: OpenService) {
+    this.openService.foo();
     this.createForm();
   }
 
@@ -35,6 +38,9 @@ export class HomeComponent {
         })
       };
     }
+  }
+  openInput(){
+    this.fileInput.nativeElement.click();
   }
   clearFile() {
     this.form.get('file').setValue(null);

@@ -1,7 +1,9 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <div class="form-group">
-    <label for="file">Arquivo</label>
-    <input type="file" id="file" (change)="onFileChange($event)" #fileInput>
+    <button mat-raised-button color="primary" (click)="openInput()">
+     Selecionar Planilha
+  </button>
+    <input type="file" style="display: none" id="file" (change)="onFileChange($event)" #fileInput>
     <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">Limpar</button>
   </div>
   <button type="submit" [disabled]="form.invalid || loading" class="btn btn-success">Submit <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
