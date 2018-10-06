@@ -1,3 +1,4 @@
 export enum Endpoints{
-    FOOBAR="/api/foo"
+    FOOBAR="/api/foo",
+    UPLOAD="/api/upload"
 }

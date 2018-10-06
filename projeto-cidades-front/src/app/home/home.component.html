@@ -1,10 +1,17 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <button mat-raised-button color="primary" (click)="openInput()">
-     Selecionar Planilha
-  </button>
-    <input type="file" style="display: none" id="file" (change)="onFileChange($event)" #fileInput>
-    <button type="button" class="btn btn-sm btn-default" (click)="clearFile()">Limpar</button>
-  </div>
-  <button type="submit" [disabled]="form.invalid || loading" class="btn btn-success">Submit <i class="fa fa-spinner fa-spin fa-fw" *ngIf="loading"></i></button>
-</form>
+<div class="main">
+  <h1>Seja Bem-Vindo ao Contre de Cidades!</h1>
+  <hr />
+  <p>
+    Para começar basta inserir a planilha (em formato CSV) no botão indicado.
+  </p>
+  <form [formGroup]="form">
+    <div class="form-group">
+      <button mat-raised-button color="primary" (click)="openInput()" [disabled]="loading">
+        Selecionar Planilha
+      </button>
+      <span class="spacer"></span>
+      <input type="file" style="display: none" id="file" (change)="onFileChange($event)" #fileInput>
+      <button id="clean" type="button" mat-raised-button class="btn btn-sm btn-default" (click)="clearFile()" [disabled]="loading">Limpar</button>
+    </div>
+  </form>
+</div>
