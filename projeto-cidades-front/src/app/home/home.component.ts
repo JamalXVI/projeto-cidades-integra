@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { CsvService } from '../core/service/csv.service';
+import { Option } from '../core/models/option.model';
 
 @Component({
   selector: 'app-home',
@@ -12,8 +13,11 @@ import { CsvService } from '../core/service/csv.service';
 export class HomeComponent {
   form: FormGroup;
   fileName: string = '';
+  options: Option[] = [new Option({name: 'Ordernar por Nome', value:'orderByName'})];
 
   @ViewChild('fileInput') fileInput: ElementRef;
+
+  @ViewChild('filter') filter: ElementRef;
 
   constructor(private fb: FormBuilder,
     private csvService: CsvService,
@@ -70,4 +74,13 @@ export class HomeComponent {
     this.fileInput.nativeElement.value = '';
     this.fileName = '';
   }
+  /**
+   * Makes the filter change, checking if need to add more fields
+   * @param event The Event who has fired the action
+   */
+  onChangeFilter(event){
+
+  }
+
+
 }

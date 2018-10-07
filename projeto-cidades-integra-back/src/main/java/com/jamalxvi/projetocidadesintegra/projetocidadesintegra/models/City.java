@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="CITY")
+@Table(name = "CITY")
 @Data
 @Builder
 public class City implements Serializable {

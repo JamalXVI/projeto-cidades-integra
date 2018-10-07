@@ -1,11 +1,11 @@
 <div class="main">
-  <h1>Seja Bem-Vindo ao Contre de Cidades!</h1>
+  <h1 class="mat-display-1">Seja Bem-Vindo ao Contre de Cidades!</h1>
   <hr />
-  <p>
+  <p class="mat-body-1">
     Para começar basta inserir a planilha (em formato CSV) no botão indicado.
   </p>
-  <p [hidden]="!fileName">
-    Último Arquivo Carregado: {{fileName}}.<br/>
+  <p [hidden]="!fileName" class="mat-body-2">
+    Último Arquivo Carregado: <span [style.color]="'red'">{{fileName}}</span>.<br />
     Para você carregar um novo Arquivo você deve clicar em limpar.
   </p>
   <form [formGroup]="form">
@@ -15,7 +15,25 @@
       </button>
       <span class="spacer"></span>
       <input type="file" style="display: none" id="file" (change)="onFileChange($event)" #fileInput>
-      <button id="clean" type="button" [disabled]="!fileName" mat-raised-button class="btn btn-sm btn-default" (click)="clearFile()" [disabled]="loading">Limpar</button>
+      <button id="clean" type="button" [disabled]="!fileName" mat-raised-button class="btn btn-sm btn-default" (click)="clearFile()"
+        [disabled]="loading">Limpar</button>
     </div>
   </form>
+  <div>
+    <h3 class="mat-subheading-2">Lista de Cidades</h3>
+    <hr />
+    <div class="search-fields">
+      <mat-form-field>
+        <mat-select placeholder="Selecione um Filtro" (change)="onChangeFilter($event)" id="filter">
+          <mat-option *ngFor="let option of options" [value]="option.value">
+            {{option.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button mat-raised-button class="search-button" color="primary" (click)="openInput()" [disabled]="!!fileName">
+        Pesquisar <fa-icon [icon]="['fas', 'search']"></fa-icon>
+      </button>
+    </div>
+
+  </div>
 </div>

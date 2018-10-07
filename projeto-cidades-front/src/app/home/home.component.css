@@ -5,6 +5,16 @@
 .spacer{
     flex: 1 1 auto;
 }
-#clean{
-    
+.form-group{
+    display: flex;
+}
+.mat-display-1, .mat-subheading-2{
+    margin-bottom: 0px;
+    margin-top: 20px;
+}
+button{
+    max-height: 36px;
+}
+.search-button{
+    margin-left: 15px;
 }
