@@ -1,5 +1,6 @@
 package com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;
 
@@ -20,5 +21,6 @@ public class State implements Serializable {
     private String uf;
 
     @OneToMany(fetch = FetchType.LAZY, targetEntity = City.class, mappedBy = "state")
+    @JsonIgnore
     private List<City> cities;
 }

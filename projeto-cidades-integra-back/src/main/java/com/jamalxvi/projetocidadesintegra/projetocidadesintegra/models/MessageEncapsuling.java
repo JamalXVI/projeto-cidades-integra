@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.HashMap;
 
 @Data
-public class MessageEncapsuling {
+public class MessageEncapsuling<K> {
     private String message;
-    private HashMap<String, String> payload;
+    private K payload;
 }

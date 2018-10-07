@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 import { MatDialogRef } from '@angular/material/dialog';
 
@@ -7,14 +7,11 @@ import { MatDialogRef } from '@angular/material/dialog';
   templateUrl: './loading-dialog.component.html',
   styleUrls: ['./loading-dialog.component.css']
 })
-export class LoadingDialogComponent implements OnInit {
+export class LoadingDialogComponent {
 
   constructor(
     private dialogRef: MatDialogRef<LoadingDialogComponent>){
 
     }
-
-  ngOnInit() {
-  }
 
 }

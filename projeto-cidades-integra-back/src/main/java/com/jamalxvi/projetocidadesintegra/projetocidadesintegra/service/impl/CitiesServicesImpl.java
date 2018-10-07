@@ -10,9 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class CitiesServicesImpl implements CitiesService {
@@ -76,5 +75,18 @@ public class CitiesServicesImpl implements CitiesService {
             throw e;
         }
         return messageEncapsuling;
+    }
+
+    @Override
+    public MessageEncapsuling orderByName() throws Exception {
+        MessageEncapsuling<List<City>> message = new MessageEncapsuling();
+        List<City> payload = cityRepository.findAll().stream().sorted(Comparator.comparing(City::getName))
+                .collect(Collectors.toList());
+        if (payload.size() > 0){
+            message.setPayload(payload);
+        }else{
+            message.setMessage("ERRO: LISTA VAZIA!");
+        }
+        return message;
     }
 }

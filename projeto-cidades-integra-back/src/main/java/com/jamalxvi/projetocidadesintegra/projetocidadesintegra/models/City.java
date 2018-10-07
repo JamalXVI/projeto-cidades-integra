@@ -16,7 +16,7 @@ public class City implements Serializable {
     @Column(name = "IBGE_ID")
     @Id
     private Long ibgeId;
-    @ManyToOne(fetch = FetchType.LAZY, targetEntity = State.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = State.class)
     @JoinColumn(name = "ID_STA")
     private State state;
     @Column(name = "NAME")

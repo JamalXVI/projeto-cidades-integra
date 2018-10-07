@@ -13,8 +13,11 @@ import { LoadingDialogComponent } from './loading-dialog/loading-dialog.componen
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Projeto Cidades';
+  
   constructor(private dialog: MatDialog, private loadingService: LoadingService){
+    /**
+     * Detect loading changes and call or dismiss the service
+     */
     this.loadingService.isLoading()
     .pipe(distinctUntilChanged())
     .subscribe(isLoading => {
