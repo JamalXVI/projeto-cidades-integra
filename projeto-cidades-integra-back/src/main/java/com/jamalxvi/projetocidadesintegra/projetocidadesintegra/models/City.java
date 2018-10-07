@@ -23,9 +23,9 @@ public class City implements Serializable {
     private String name;
     @Column(name = "CAPITAL")
     private Boolean capital;
-    @Column(name = "LONGI", scale = 11)
+    @Column(name = "LONGI", scale = 19, precision = 23)
     private BigDecimal longitude;
-    @Column(name = "LAT", scale = 11)
+    @Column(name = "LAT", scale = 19, precision = 23)
     private BigDecimal latitude;
     @Column(name = "NO_ACCENTS")
     private String nameWithOutAccent;

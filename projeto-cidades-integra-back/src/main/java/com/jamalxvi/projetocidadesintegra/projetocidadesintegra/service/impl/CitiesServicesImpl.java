@@ -31,6 +31,7 @@ public class CitiesServicesImpl implements CitiesService {
             String text = new String(decodedByteArray);
             Boolean firstLine = false;
             List<State> states = stateRepository.findAll();
+            List<City> cities = cityRepository.findAll();
             List<State> statesToAdd = new ArrayList<>();
             List<City> citiesToAdd = new ArrayList<>();
             for (String line : text.split("\n")) {
@@ -38,6 +39,10 @@ public class CitiesServicesImpl implements CitiesService {
                     firstLine = true;
                 } else {
                     String[] cells = line.split(",");
+                    Long id = Long.parseLong(cells[0]);
+                    if (cities.parallelStream().anyMatch(city -> city.getIbgeId().equals(id))){
+                        continue;
+                    }
                     String currrentStateString = cells[1];
                     State currentState = states.stream().filter(state -> state.getUf().equals(currrentStateString))
                             .findFirst().orElse(null);
@@ -46,7 +51,7 @@ public class CitiesServicesImpl implements CitiesService {
                         statesToAdd.add(currentState);
                         states.add(currentState);
                     }
-                    City city = City.builder().ibgeId(Long.parseLong(cells[0]))
+                    City city = City.builder().ibgeId(id)
                             .state(currentState)
                             .name(cells[2]).capital(cells[3].isEmpty())
                             .longitude(new BigDecimal(cells[4])).latitude(new BigDecimal(cells[5]))
@@ -55,6 +60,7 @@ public class CitiesServicesImpl implements CitiesService {
                     citiesToAdd.add(city);
                 }
             }
+
             if (firstLine && citiesToAdd.size() > 0){
                 statesToAdd.stream().forEach(state -> {
                     stateRepository.save(state);
@@ -63,6 +69,8 @@ public class CitiesServicesImpl implements CitiesService {
                     cityRepository.save(city);
                 });
                 messageEncapsuling.setMessage("Sucesso ao Cadastrar");
+            }else{
+                messageEncapsuling.setMessage("ERRO: NENHUMA CIDADE NOVA A CADASTRAR");
             }
         } catch (Exception e) {
             throw e;
