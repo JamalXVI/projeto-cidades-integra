@@ -4,14 +4,18 @@
   <p>
     Para começar basta inserir a planilha (em formato CSV) no botão indicado.
   </p>
+  <p [hidden]="!fileName">
+    Último Arquivo Carregado: {{fileName}}.<br/>
+    Para você carregar um novo Arquivo você deve clicar em limpar.
+  </p>
   <form [formGroup]="form">
     <div class="form-group">
-      <button mat-raised-button color="primary" (click)="openInput()" [disabled]="loading">
+      <button mat-raised-button color="primary" (click)="openInput()" [disabled]="!!fileName">
         Selecionar Planilha
       </button>
       <span class="spacer"></span>
       <input type="file" style="display: none" id="file" (change)="onFileChange($event)" #fileInput>
-      <button id="clean" type="button" mat-raised-button class="btn btn-sm btn-default" (click)="clearFile()" [disabled]="loading">Limpar</button>
+      <button id="clean" type="button" [disabled]="!fileName" mat-raised-button class="btn btn-sm btn-default" (click)="clearFile()" [disabled]="loading">Limpar</button>
     </div>
   </form>
 </div>

@@ -11,7 +11,7 @@ import { CsvService } from '../core/service/csv.service';
 })
 export class HomeComponent {
   form: FormGroup;
-  loading: boolean = false;
+  fileName: string = '';
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
@@ -21,18 +21,28 @@ export class HomeComponent {
     this.createForm();
   }
 
+  /**
+   * Creates the FileInput form
+   */
   createForm() {
     this.form = this.fb.group({
       file: ['', Validators.required]
     });
   }
+
+  /**
+   * Dectect fileInput Changes, and achieves the CSV service when dectect some file.
+   * @param event The Event who has fired the action
+   */
   onFileChange(event) {
     let reader = new FileReader();
     if (event.target.files && event.target.files.length > 0) {
       let file = event.target.files[0];
       reader.readAsDataURL(file);
       reader.onload = () => {
-        const base64File = (<any>reader.result).split(',')[1];
+        const selectedFile = (<any>reader.result).split(',');
+        this.fileName = file.name;
+        const base64File = selectedFile[1];
         if (!!base64File) {
           this.csvService.upload(base64File)
             .subscribe(res => {
@@ -44,11 +54,20 @@ export class HomeComponent {
       };
     }
   }
+
+  /**
+   * Actives FileInput action when click in the button.
+   */
   openInput() {
     this.fileInput.nativeElement.click();
   }
+
+  /**
+   * Remove Last Selected File
+   */
   clearFile() {
     this.form.get('file').setValue(null);
     this.fileInput.nativeElement.value = '';
+    this.fileName = '';
   }
 }
