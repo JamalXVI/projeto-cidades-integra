@@ -19,7 +19,7 @@ spring.datasource.username=PROJETOCIDADE
 spring.datasource.password=SENHA
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 spring.jpa.database-platform=org.hibernate.dialect.Oracle12cDialect
-
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
@@ -48,7 +48,7 @@ spring.datasource.username=PROJETOCIDADE
 spring.datasource.password=SENHA
 spring.datasource.driver-class-name=oracle.jdbc.OracleDriver
 spring.jpa.database-platform=org.hibernate.dialect.Oracle12cDialect
-
+```
 
 ## Contribuindo
 Sintam-se a vontade para contribuir com o projeto
