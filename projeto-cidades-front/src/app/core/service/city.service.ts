@@ -66,13 +66,27 @@ export class CityService {
                 }), finalize(() => this.loadingService.unLoad()));
     }
     /**
-     * Send an String-encoded file to the UPLOAD endpoint and expects no payload of return,
-     * just the system message
-     * @param csvBase64 the String enconded file
+     * Send a CityDto to back add the city, returning just the system message
+     * @param dto the city Dto
      */
     public add(dto: CityDto): Observable<MessageEncapsuling<any>> {
         this.loadingService.setLoading();
         return this.http.post(Endpoints.ADD_CITY.toString(), dto)
+            .pipe(map(res => new MessageEncapsuling<any>(res)),
+                catchError((error: any) => {
+                    this.snackBar.open((<MessageEncapsuling<any>>error.error).message.toString());
+                    return Observable.throw(error);
+                }), finalize(() => this.loadingService.unLoad()));
+    }
+    /**
+     * remove selectedCity by id returning just the system message
+     * @param ibgeId the city id
+     */
+    public remove(ibgeId: Number): Observable<MessageEncapsuling<any>> {
+        this.loadingService.setLoading();
+        return this.http.delete(Endpoints.REMOVE_CITY_ID.toString(), {
+            params: {"ibgeId": ibgeId.toString()}
+        })
             .pipe(map(res => new MessageEncapsuling<any>(res)),
                 catchError((error: any) => {
                     this.snackBar.open((<MessageEncapsuling<any>>error.error).message.toString());

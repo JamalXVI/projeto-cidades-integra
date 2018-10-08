@@ -1,3 +1,35 @@
-<p>
-  curiosities works!
-</p>
+<div class="main">
+  <div *ngIf="!!errorPage">
+    <h2 class="mat-display-1">Ah Não!</h2>
+    <p>Algo deu errado. Erros: {{errorMessages}}</p>
+
+  </div>
+  <div *ngIf="!errorPage">
+    <div *ngIf="curiosities.mostDistancedCities.length > 0">
+      <h3 class="mat-subheading-2">As Cidades mais distantes uma da outra</h3>
+      <hr />
+      <p class="mat-body-1">
+        As cidades mais distantes uma da outra
+        são {{curiosities.mostDistancedCities[0].name}}
+        e a(o) {{curiosities.mostDistancedCities[1].name}}
+      </p>
+    </div>
+    <div *ngIf="curiosities.numberOfCities > 0">
+      <h3 class="mat-subheading-2">O Total de Cidades</h3>
+      <hr />
+      <p class="mat-body-1">
+        O total de cidades é de {{curiosities.numberOfCities}}
+      </p>
+    </div>
+    <div *ngIf="curiosities.stateCounterDto.length > 0">
+      <h3 class="mat-subheading-2">Os estados com o maior e o menor número de cidades.</h3>
+      <hr />
+      <p class="mat-body-1">
+        O estado com o maior número de cidades é o {{curiosities.stateCounterDto[0].state.uf}}
+        com {{curiosities.stateCounterDto[0].numberOfCities}} cidade(s) e o estado com o menor número de
+        cidades é o {{curiosities.stateCounterDto[1].state.uf}}
+        com {{curiosities.stateCounterDto[1].numberOfCities}} cidade(s)
+      </p>
+    </div>
+  </div>
+</div>

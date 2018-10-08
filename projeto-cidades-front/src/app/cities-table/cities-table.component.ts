@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Subject } from 'rxjs/internal/Subject';
 import { City } from '../core/models/city.model';
 import { DEFAULT_PAGE_SIZE_OPTION, PAGE_SIZE_OPTIONS, CityFilter } from '../core/constants';
 import { map, distinctUntilChanged } from 'rxjs/operators';
 import { set } from 'lodash';
+import { EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-cities-table',
@@ -26,7 +27,7 @@ export class CitiesTableComponent implements OnInit {
     this._cities = cities;
     this.fullfillCities();
   }
-
+  @Output() removeCity = new EventEmitter();
   search$: Subject<any> = new Subject<any>();
   filters: any = {};
   dataSource: MatTableDataSource<City>;
@@ -61,5 +62,9 @@ export class CitiesTableComponent implements OnInit {
   onCapitalChange($event){
     this.search$.next({search: $event.value, prop: 'capital'});
   }
-
+  onRemove(id){
+    if(!!id){
+      this.removeCity.emit(id);
+    }
+  }
 }

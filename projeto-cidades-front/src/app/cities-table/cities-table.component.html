@@ -126,7 +126,11 @@
         <mat-header-cell *matHeaderCellDef>
           Ações
         </mat-header-cell>
-        <mat-cell *matCellDef="let row">Ação</mat-cell>
+        <mat-cell *matCellDef="let row">
+            <button mat-raised-button class="remove-btn" color="accent" (click)="onRemove(row.ibgeId)">
+                <fa-icon [icon]="['fas', 'trash-alt']"></fa-icon>
+              </button>
+        </mat-cell>
       </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

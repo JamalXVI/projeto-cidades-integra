@@ -116,12 +116,50 @@ public class CitiesServicesImpl implements CitiesService {
     }
 
     @Override
+    public MessageEncapsuling removeCity(Long ibgeId) throws Exception {
+        MessageEncapsuling<City> message = new MessageEncapsuling();
+        City city = cityRepository.findById(ibgeId).orElse(null);
+        if (city != null){
+            cityRepository.deleteById(ibgeId);
+            message.setMessage("Cidade Removida com sucesso!");
+        }else{
+            message.setMessage("ERRO: CIDADE NÃO ENCONTRADA");
+        }
+        return message;
+    }
+
+    @Override
     public MessageEncapsuling orderByNameOnlyCapitals() throws Exception {
         MessageEncapsuling<List<City>> message = new MessageEncapsuling();
         List<City> payload = cityRepository.findByCapital(true).stream().sorted(Comparator.comparing(City::getName))
                 .collect(Collectors.toList());
         if (payload.size() > 0){
             message.setPayload(payload);
+        }else{
+            message.setMessage("ERRO: LISTA VAZIA!");
+        }
+        return message;
+    }
+
+
+
+    @Override
+    public MessageEncapsuling mostDistancedCities() throws Exception {
+        MessageEncapsuling<List<City>> message = new MessageEncapsuling();
+        List<City> cities = cityRepository.findAll();
+        if (cities.size() > 0){
+            List<City> payload = new ArrayList<>();
+            City max = cities.stream().max(Comparator.comparing(City::getLongitude)
+                    .thenComparing(City::getLatitude)).orElse(null);
+            City min = cities.stream().min(Comparator.comparing(City::getLongitude)
+                    .thenComparing(City::getLatitude)).orElse(null);
+            if(max != null && min != null){
+                payload.add(max);
+                payload.add(min);
+                message.setPayload(payload);
+            }else{
+                message.setMessage("ERRO: ERRO INESPERADO!");
+            }
         }else{
             message.setMessage("ERRO: LISTA VAZIA!");
         }

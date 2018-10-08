@@ -9,7 +9,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
   faSearch,
-  faCheckCircle
+  faCheckCircle,
+  faTrashAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 /** Material Design Modules */
@@ -33,7 +34,7 @@ import { CuriositiesComponent } from './curiosities/curiosities.component';
 import { AddCityComponent } from './add-city/add-city.component';
 
 /** Add Fort-Awesome icons into the library */
-library.add(faSearch, faCheckCircle);
+library.add(faSearch, faCheckCircle, faTrashAlt);
 
 @NgModule({
   declarations: [

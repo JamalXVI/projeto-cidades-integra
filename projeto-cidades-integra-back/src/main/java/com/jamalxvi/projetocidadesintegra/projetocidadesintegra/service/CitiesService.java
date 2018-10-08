@@ -27,10 +27,18 @@ public interface CitiesService {
     public MessageEncapsuling getCount() throws Exception;
 
     /**
+     * get selected city
      * @return MessageEncapsuling object containing a selected city
      * @throws Exception
      */
     public MessageEncapsuling getCity(Long ibgeId) throws Exception;
+
+    /**
+     * remove city by Id
+     * @return MessageEncapsuling object containing a selected city
+     * @throws Exception
+     */
+    public MessageEncapsuling removeCity(Long ibgeId) throws Exception;
 
     /**
      * Order a List of Cities by name and only the ones who are capitals
@@ -48,8 +56,17 @@ public interface CitiesService {
 
     /**
      * Add a city to repository
+     * @param  dto the dto containing the city to add
      * @return MessageEncapsuling object containing the city ordered by name
      * @throws Exception
      */
     public MessageEncapsuling addCity(CityDto dto) throws Exception;
+
+
+    /**
+     * return the Cities with maximum distance
+     * @return MessageEncapsuling object containing the city ordered by name
+     * @throws Exception
+     */
+    public MessageEncapsuling mostDistancedCities() throws Exception;
 }

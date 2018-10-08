@@ -167,5 +167,13 @@ export class HomeComponent {
       this.snackBar.open("ERRO: SELECIONE UMA OPÇÃO VÁLIDA", '', { duration: 2500 });
     }
   }
-
+  onRemove(id){
+    this.cityService.remove(id)
+      .subscribe(res => {
+        if (!!res.message) {
+          this.snackBar.open(<string>res.message, '', { duration: 2500 });
+        }
+        this.onSearch();
+      });
+  }
 }

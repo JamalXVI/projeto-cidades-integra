@@ -47,7 +47,7 @@
       </button>
     </div>
     <div [hidden]="!cities || !!cities && cities.length <= 0">
-      <app-cities-table [cities]="cities"></app-cities-table>
+      <app-cities-table [cities]="cities" (removeCity)="onRemove($event)"></app-cities-table>
     </div>
   </div>
 </div>

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
+import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -93,6 +94,26 @@ public class CitiesController {
         return messageEncapsuling;
     }
 
+
+    /**
+     * return the Cities with maximum distance
+     *
+     * @param response the HttpResponse object, used to change http status code
+     * @return the MessageEncapsuling containing the possible error, success messages or
+     * warnings
+     */
+    @RequestMapping(method = GET, value = "/cities/mostDistance")
+    public MessageEncapsuling mostDistancedCities(HttpServletResponse response) {
+        MessageEncapsuling messageEncapsuling = new MessageEncapsuling();
+        try {
+            messageEncapsuling = citiesService.mostDistancedCities();
+        } catch (Exception e) {
+            messageEncapsuling.setMessage("ERRO: AO TENTAR BUSCAR LISTA DAS CIDADES MAIS DISTANTES");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        return messageEncapsuling;
+    }
+
     /**
      * return a list of cities, ordered by name ASCENDING
      *
@@ -148,6 +169,28 @@ public class CitiesController {
             messageEncapsuling = citiesService.getCity(ibgeId);
         } catch (Exception e) {
             messageEncapsuling.setMessage("ERRO: AO TENTAR BUSCAR A CIDADE");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        return messageEncapsuling;
+    }
+
+    /**
+     * removes a city
+     *
+     * @param ibgeIdString the city id
+     * @param response the HttpResponse object, used to change http status code
+     * @return the MessageEncapsuling containing the possible error, success messages or
+     * warnings
+     */
+    @RequestMapping(method = DELETE, value = "/cities/removeId")
+    public MessageEncapsuling getRemoveById(@RequestParam("ibgeId") String ibgeIdString,
+                                       HttpServletResponse response) {
+        MessageEncapsuling messageEncapsuling = new MessageEncapsuling();
+        try {
+            Long ibgeId = Long.valueOf(ibgeIdString);
+            messageEncapsuling = citiesService.removeCity(ibgeId);
+        } catch (Exception e) {
+            messageEncapsuling.setMessage("ERRO: AO TENTAR REMOVER A CIDADE");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         return messageEncapsuling;
