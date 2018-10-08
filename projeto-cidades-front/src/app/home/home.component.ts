@@ -1,9 +1,13 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatSelect } from '@angular/material/select';
 
 import { CsvService } from '../core/service/csv.service';
 import { Option } from '../core/models/option.model';
+import { City } from '../core/models/city.model';
+import { MessageEncapsuling } from '../core/models/message-encapsuling.model';
 
 @Component({
   selector: 'app-home',
@@ -13,11 +17,13 @@ import { Option } from '../core/models/option.model';
 export class HomeComponent {
   form: FormGroup;
   fileName: string = '';
-  options: Option[] = [new Option({name: 'Ordernar por Nome', value:'orderByName'})];
+  cities: City[] = [];
+  options: Option[] = [new Option({ name: 'Ordernar por Nome', value: 'orderByName' }),
+  new Option({ name: 'Ordernar por Nome Somente Capitais', value: 'orderByNameOnlyCaptals' })];
 
   @ViewChild('fileInput') fileInput: ElementRef;
 
-  @ViewChild('filter') filter: ElementRef;
+  @ViewChild('filter') filter: MatSelect;
 
   constructor(private fb: FormBuilder,
     private csvService: CsvService,
@@ -78,9 +84,30 @@ export class HomeComponent {
    * Makes the filter change, checking if need to add more fields
    * @param event The Event who has fired the action
    */
-  onChangeFilter(event){
+  onChangeFilter(event) {
 
   }
-
+  onSearch() {
+    const value = this.filter.value;
+    if (!!value) {
+      switch (value) {
+        case "orderByName":
+          this.csvService.getOrderedByNameCity()
+            .subscribe((message: MessageEncapsuling<City[]>) => {
+              if (!!message.message) {
+                this.snackBar.open(<string>message.message, '', { duration: 2500 });
+              } else if (!!message.payload) {
+                this.cities = message.payload;
+              }
+            })
+          break;
+        default:
+          this.snackBar.open("ERRO: SELECIONE UMA OPÇÃO VÁLIDA");
+          break;
+      }
+    }else {
+      this.snackBar.open("ERRO: SELECIONE UMA OPÇÃO VÁLIDA", '', { duration: 2500 });
+    }
+  }
 
 }

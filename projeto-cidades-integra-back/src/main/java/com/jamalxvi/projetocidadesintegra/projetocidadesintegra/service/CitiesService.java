@@ -18,4 +18,11 @@ public interface CitiesService {
      * @throws Exception
      */
     public MessageEncapsuling orderByName() throws Exception;
+
+    /**
+     * Order a List of Cities by name and only the ones who are capitals
+     * @return MessageEncapsuling object containing the city ordered by name
+     * @throws Exception
+     */
+    public MessageEncapsuling orderByNameOnlyCapitals() throws Exception;
 }

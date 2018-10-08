@@ -1,0 +1,142 @@
+<div class="mat-elevation-z8 tabela">
+  <mat-table #table [dataSource]="dataSource" matSort aria-label="Elements">
+
+    <!-- The IbgeId Column -->
+    <ng-container matColumnDef="ibgeId">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Num. IBGE' (input)="search$.next({search: $event.target.value, prop: 'ibgeId'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.ibgeId}}</mat-cell>
+    </ng-container>
+
+    <!-- The state Column -->
+    <ng-container matColumnDef="state">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Estado' (input)="search$.next({search: $event.target.value, prop: 'state'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.state.uf}}</mat-cell>
+    </ng-container>
+
+    <!-- The name Column -->
+    <ng-container matColumnDef="name">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Nome' (input)="search$.next({search: $event.target.value, prop: 'name'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.name}}</mat-cell>
+    </ng-container>
+
+    <!-- The nameWithOutAccent Column -->
+    <ng-container matColumnDef="nameWithOutAccent">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Nome Sem Ac.' (input)="search$.next({search: $event.target.value, prop: 'nameWithOutAccent'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.nameWithOutAccent}}</mat-cell>
+    </ng-container>
+
+    <!-- The alternativaName Column -->
+    <ng-container matColumnDef="alternativaName">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Nome Alt.' (input)="search$.next({search: $event.target.value, prop: 'alternativaName'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.alternativaName}}</mat-cell>
+    </ng-container> 
+
+    <!-- The capital Column -->
+    <ng-container matColumnDef="capital">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+            <mat-select placeholder="Capital" (selectionChange)="onCapitalChange($event)">
+              <mat-option [value]="true">
+                Sim
+              </mat-option>
+              <mat-option [value]="false">
+                Não
+              </mat-option>
+              <mat-option [value]="">
+                Todos
+              </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row"><fa-icon [style.color]="'#4caf50'" *ngIf="!!row.capital" [icon]="['fas', 'check-circle']"></fa-icon></mat-cell>
+    </ng-container>
+
+    <!-- The longitude Column -->
+    <ng-container matColumnDef="longitude">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Longitude' (input)="search$.next({search: $event.target.value, prop: 'longitude'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.longitude |  number:'1.3-3'}}</mat-cell>
+    </ng-container>
+
+    <!-- The longitude Column -->
+    <ng-container matColumnDef="latitude">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Latitude' (input)="search$.next({search: $event.target.value, prop: 'latitude'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.latitude |  number:'1.3-3'}}</mat-cell>
+    </ng-container>
+
+    <!-- The microRegion Column -->
+    <ng-container matColumnDef="microRegion">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Micro Região' (input)="search$.next({search: $event.target.value, prop: 'microRegion'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.microRegion}}</mat-cell>
+    </ng-container>
+
+    <!-- The mesoRegion Column -->
+    <ng-container matColumnDef="mesoRegion">
+      <mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <input type="text" matInput placeholder='Meso Região' (input)="search$.next({search: $event.target.value, prop: 'mesoRegion'})" />
+        </mat-form-field>
+        <span mat-sort-header></span>
+      </mat-header-cell>
+      <mat-cell *matCellDef="let row">{{row.mesoRegion}}</mat-cell>
+    </ng-container>
+
+    <!-- The actions Column -->
+    <ng-container matColumnDef="actions">
+        <mat-header-cell *matHeaderCellDef>
+          Ações
+        </mat-header-cell>
+        <mat-cell *matCellDef="let row">Ação</mat-cell>
+      </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator #paginator
+    [length]="dataSource.data.length"
+    [pageIndex]="0"
+    [pageSize]="defaultPageSize"
+    [pageSizeOptions]="pageSizes">
+  </mat-paginator>
+</div>

@@ -50,6 +50,12 @@ public class CitiesController {
         return messageEncapsuling;
     }
 
+    /**
+     * return a list of cities, ordered by name ASCENDING
+     * @param response the HttpResponse object, used to change http status code
+     * @return the MessageEncapsuling containing the possible error, success messages or
+     * warnings
+     */
     @RequestMapping(method = GET, value = "/cities/orderedByName")
     public MessageEncapsuling getOrderedCities(HttpServletResponse response) {
         MessageEncapsuling messageEncapsuling = new MessageEncapsuling();

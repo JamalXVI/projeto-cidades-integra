@@ -8,7 +8,8 @@ import { HttpModule } from '@angular/http';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import {
-  faSearch
+  faSearch,
+  faCheckCircle
 } from '@fortawesome/free-solid-svg-icons';
 
 /** Material Design Modules */
@@ -19,6 +20,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } from '@angular/material';
 
 
 import { AppComponent } from './app.component';
@@ -26,16 +28,18 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
+import { CitiesTableComponent } from './cities-table/cities-table.component';
 
 /** Add Fort-Awesome icons into the library */
-library.add(faSearch);
+library.add(faSearch, faCheckCircle);
 
 @NgModule({
   declarations: [
     AppComponent,
     ToolbarComponent,
     HomeComponent,
-    LoadingDialogComponent
+    LoadingDialogComponent,
+    CitiesTableComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +50,11 @@ library.add(faSearch);
     MatProgressSpinnerModule,
     MatDialogModule,
     MatSelectModule,
+    MatTableModule, 
+    MatPaginatorModule, 
+    MatSortModule,
     MatIconModule,
+    MatInputModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,

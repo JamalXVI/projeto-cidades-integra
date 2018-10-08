@@ -24,16 +24,18 @@
     <hr />
     <div class="search-fields">
       <mat-form-field>
-        <mat-select placeholder="Selecione um Filtro" (change)="onChangeFilter($event)" id="filter">
+        <mat-select placeholder="Selecione um Filtro" (change)="onChangeFilter($event)" #filter>
           <mat-option *ngFor="let option of options" [value]="option.value">
             {{option.name}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <button mat-raised-button class="search-button" color="primary" (click)="openInput()" [disabled]="!!fileName">
+      <button mat-raised-button class="search-button" color="primary" (click)="onSearch()">
         Pesquisar <fa-icon [icon]="['fas', 'search']"></fa-icon>
       </button>
     </div>
-
+    <div [hidden]="!cities || !!cities && cities.length <= 0">
+      <app-cities-table [cities]="cities"></app-cities-table>
+    </div>
   </div>
 </div>

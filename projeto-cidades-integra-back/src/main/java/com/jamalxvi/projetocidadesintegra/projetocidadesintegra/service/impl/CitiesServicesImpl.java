@@ -52,7 +52,7 @@ public class CitiesServicesImpl implements CitiesService {
                     }
                     City city = City.builder().ibgeId(id)
                             .state(currentState)
-                            .name(cells[2]).capital(cells[3].isEmpty())
+                            .name(cells[2]).capital(!cells[3].isEmpty())
                             .longitude(new BigDecimal(cells[4])).latitude(new BigDecimal(cells[5]))
                             .nameWithOutAccent(cells[6]).alternativaName(cells[7]).microRegion(cells[8])
                             .mesoRegion(cells[9]).build();
@@ -81,6 +81,19 @@ public class CitiesServicesImpl implements CitiesService {
     public MessageEncapsuling orderByName() throws Exception {
         MessageEncapsuling<List<City>> message = new MessageEncapsuling();
         List<City> payload = cityRepository.findAll().stream().sorted(Comparator.comparing(City::getName))
+                .collect(Collectors.toList());
+        if (payload.size() > 0){
+            message.setPayload(payload);
+        }else{
+            message.setMessage("ERRO: LISTA VAZIA!");
+        }
+        return message;
+    }
+
+    @Override
+    public MessageEncapsuling orderByNameOnlyCapitals() throws Exception {
+        MessageEncapsuling<List<City>> message = new MessageEncapsuling();
+        List<City> payload = cityRepository.findByCapitals(true).stream().sorted(Comparator.comparing(City::getName))
                 .collect(Collectors.toList());
         if (payload.size() > 0){
             message.setPayload(payload);

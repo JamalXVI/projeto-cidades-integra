@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Endpoints } from "../endpoints.enum";
 import { MessageEncapsuling } from '../models/message-encapsuling.model';
 import { LoadingService } from './loading.service';
+import { City } from '../models/city.model';
 
 @Injectable({ providedIn: 'root' })
 export class CsvService {
@@ -32,5 +33,15 @@ export class CsvService {
                     this.snackBar.open((<MessageEncapsuling<any>>error.error).message.toString());
                     return Observable.throw(error);
                 }), finalize(() => this.loadingService.unLoad()));
+    }
+
+    public getOrderedByNameCity(){
+        this.loadingService.setLoading();
+        return this.http.get(Endpoints.ORDER_BY_NAME)
+        .pipe(map(res => new MessageEncapsuling<City[]>(res)),
+        catchError((error: any) => {
+            this.snackBar.open((<MessageEncapsuling<City[]>>error.error).message.toString());
+            return Observable.throw(error);
+        }), finalize(() => this.loadingService.unLoad()));
     }
 }
