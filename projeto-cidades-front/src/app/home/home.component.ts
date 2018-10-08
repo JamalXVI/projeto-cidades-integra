@@ -5,9 +5,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatSelect } from '@angular/material/select';
 
 import { CsvService } from '../core/service/csv.service';
+import { CityService } from '../core/service/city.service';
 import { Option } from '../core/models/option.model';
 import { City } from '../core/models/city.model';
 import { MessageEncapsuling } from '../core/models/message-encapsuling.model';
+import { Endpoints } from '../core/endpoints.enum';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +29,7 @@ export class HomeComponent {
 
   constructor(private fb: FormBuilder,
     private csvService: CsvService,
+    private cityService: CityService,
     private snackBar: MatSnackBar) {
     this.createForm();
   }
@@ -89,23 +92,30 @@ export class HomeComponent {
   }
   onSearch() {
     const value = this.filter.value;
+    let endpoint: Endpoints = null;
+    let params: any = {};
     if (!!value) {
       switch (value) {
         case "orderByName":
-          this.csvService.getOrderedByNameCity()
-            .subscribe((message: MessageEncapsuling<City[]>) => {
-              if (!!message.message) {
-                this.snackBar.open(<string>message.message, '', { duration: 2500 });
-              } else if (!!message.payload) {
-                this.cities = message.payload;
-              }
-            })
+          endpoint = Endpoints.ORDER_BY_NAME;
           break;
-        default:
-          this.snackBar.open("ERRO: SELECIONE UMA OPÇÃO VÁLIDA");
+        case "orderByNameOnlyCaptals":
+          endpoint = Endpoints.ORDER_BY_NAME_ONLY_CAPITALS;
           break;
       }
-    }else {
+      if (!!endpoint) {
+        this.cityService.getAnyList(endpoint, params)
+          .subscribe((message: MessageEncapsuling<City[]>) => {
+            if (!!message.message) {
+              this.snackBar.open(<string>message.message, '', { duration: 2500 });
+            } else if (!!message.payload) {
+              this.cities = message.payload;
+            }
+          });
+      } else {
+        this.snackBar.open("ERRO: SELECIONE UMA OPÇÃO VÁLIDA");
+      }
+    } else {
       this.snackBar.open("ERRO: SELECIONE UMA OPÇÃO VÁLIDA", '', { duration: 2500 });
     }
   }

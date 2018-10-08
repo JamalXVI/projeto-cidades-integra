@@ -20,6 +20,18 @@ public interface CitiesService {
     public MessageEncapsuling orderByName() throws Exception;
 
     /**
+     * @return MessageEncapsuling object containing the number of cities
+     * @throws Exception
+     */
+    public MessageEncapsuling getCount() throws Exception;
+
+    /**
+     * @return MessageEncapsuling object containing a selected city
+     * @throws Exception
+     */
+    public MessageEncapsuling getCity(Long ibgeId) throws Exception;
+
+    /**
      * Order a List of Cities by name and only the ones who are capitals
      * @return MessageEncapsuling object containing the city ordered by name
      * @throws Exception

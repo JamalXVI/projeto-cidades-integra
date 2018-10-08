@@ -29,6 +29,7 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import { CitiesTableComponent } from './cities-table/cities-table.component';
+import { CuriositiesComponent } from './curiosities/curiosities.component';
 
 /** Add Fort-Awesome icons into the library */
 library.add(faSearch, faCheckCircle);
@@ -39,7 +40,8 @@ library.add(faSearch, faCheckCircle);
     ToolbarComponent,
     HomeComponent,
     LoadingDialogComponent,
-    CitiesTableComponent
+    CitiesTableComponent,
+    CuriositiesComponent
   ],
   imports: [
     BrowserModule,

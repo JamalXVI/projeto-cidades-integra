@@ -91,9 +91,33 @@ public class CitiesServicesImpl implements CitiesService {
     }
 
     @Override
+    public MessageEncapsuling getCount() throws Exception {
+        MessageEncapsuling<Long> message = new MessageEncapsuling();
+        List<City> cities = cityRepository.findAll();
+        if (cities.size() > 0){
+            message.setPayload(Long.valueOf(cities.size()));
+        }else{
+            message.setMessage("ERRO: LISTA VAZIA!");
+        }
+        return message;
+    }
+
+    @Override
+    public MessageEncapsuling getCity(Long ibgeId) throws Exception {
+        MessageEncapsuling<City> message = new MessageEncapsuling();
+        City city = cityRepository.findById(ibgeId).orElse(null);
+        if (city != null){
+            message.setPayload(city);
+        }else{
+            message.setMessage("ERRO: CIDADE NÃO ENCONTRADA");
+        }
+        return message;
+    }
+
+    @Override
     public MessageEncapsuling orderByNameOnlyCapitals() throws Exception {
         MessageEncapsuling<List<City>> message = new MessageEncapsuling();
-        List<City> payload = cityRepository.findByCapitals(true).stream().sorted(Comparator.comparing(City::getName))
+        List<City> payload = cityRepository.findByCapital(true).stream().sorted(Comparator.comparing(City::getName))
                 .collect(Collectors.toList());
         if (payload.size() > 0){
             message.setPayload(payload);

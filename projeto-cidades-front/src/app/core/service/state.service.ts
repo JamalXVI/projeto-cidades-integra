@@ -9,9 +9,11 @@ import { Observable } from 'rxjs';
 import { Endpoints } from "../endpoints.enum";
 import { MessageEncapsuling } from '../models/message-encapsuling.model';
 import { LoadingService } from './loading.service';
+import { StateCounterDto } from '../models/state-counter-dto.model';
 
 @Injectable({ providedIn: 'root' })
-export class CsvService {
+export class StateService{
+
     constructor(
         protected router: Router,
         protected http: HttpClient,
@@ -20,17 +22,16 @@ export class CsvService {
 
     }
     /**
-     * Send an String-encoded file to the UPLOAD endpoint and expects no payload of return,
-     * just the system message
-     * @param csvBase64 the String enconded file
+     * Return the highest and the lowest state ranked by number of cities
+     * @returns the MessageEncapsuling containing the highest and lowest
      */
-    public upload(csvBase64: String): Observable<MessageEncapsuling<any>> {
+    public getHightestAndLowest(): Observable<MessageEncapsuling<StateCounterDto[]>>{
         this.loadingService.setLoading();
-        return this.http.post(Endpoints.UPLOAD.toString(), csvBase64)
-            .pipe(map(res => new MessageEncapsuling<any>(res)),
-                catchError((error: any) => {
-                    this.snackBar.open((<MessageEncapsuling<any>>error.error).message.toString());
-                    return Observable.throw(error);
-                }), finalize(() => this.loadingService.unLoad()));
+        return this.http.get(Endpoints.HIGHEST_AND_LOWEST_STATE)
+        .pipe(map(res => new MessageEncapsuling<StateCounterDto[]>(res)),
+        catchError((error: any) => {
+            this.snackBar.open((<MessageEncapsuling<StateCounterDto[]>>error.error).message.toString());
+            return Observable.throw(error);
+        }), finalize(() => this.loadingService.unLoad()));
     }
 }
