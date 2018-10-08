@@ -10,7 +10,7 @@ An angular 6 and Spring boot application
 *Maven
 
 ## CONFIGURING
-if you pretend to change the database you might change the file `application.properties`
+if you pretend to change the database you might change the file application.properties
 
 ```
 #Basic Spring Boot Config for Oracle
@@ -39,7 +39,7 @@ Please make sure to update tests as appropriate.
 *Maven
 
 ## Configuração
-Se você deseja mudar a database você talvez deva mudar as configurações em `application.properties`
+Se você deseja mudar a database você talvez deva mudar as configurações em application.properties
 
 ```
 #Basic Spring Boot Config for Oracle
