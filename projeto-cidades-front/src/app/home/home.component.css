@@ -18,3 +18,12 @@ button{
 .search-button{
     margin-left: 15px;
 }
+.id-search{
+    display: inline;
+    margin-left: 10px;
+}
+.state-search{
+    display: inline-block;
+    max-width: 200px;
+    margin-left: 15px;
+}

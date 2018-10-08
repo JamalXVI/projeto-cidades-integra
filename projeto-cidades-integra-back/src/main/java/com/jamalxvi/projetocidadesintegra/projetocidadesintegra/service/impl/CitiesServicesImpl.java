@@ -1,5 +1,6 @@
 package com.jamalxvi.projetocidadesintegra.projetocidadesintegra.service.impl;
 
+import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.dto.CityDto;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.City;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.MessageEncapsuling;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.State;
@@ -125,5 +126,60 @@ public class CitiesServicesImpl implements CitiesService {
             message.setMessage("ERRO: LISTA VAZIA!");
         }
         return message;
+    }
+
+    @Override
+    public MessageEncapsuling selectByState(Long stateId) throws Exception {
+        MessageEncapsuling<List<City>> message = new MessageEncapsuling();
+        State state = stateRepository.findById(stateId).orElse(null);
+        if(state != null){
+            List<City> payload = state.getCities();
+            if (payload.size() > 0){
+                message.setPayload(payload);
+            }else{
+                message.setMessage("ERRO: LISTA VAZIA!");
+            }
+        }else{
+            message.setMessage("ERRO: ESTADO NÃO ENCONTRADO!");
+        }
+        return message;
+    }
+    @Override
+    public MessageEncapsuling addCity(CityDto dto) throws Exception {
+        MessageEncapsuling messageEncapsuling = new MessageEncapsuling();
+        try {
+            Boolean firstLine = false;
+            List<State> states = stateRepository.findAll();
+            if(states.size() > 0) {
+                City cityToAdd = null;
+                State currentState = states.stream().filter(state -> state.getId().equals(dto.getStateId()))
+                        .findFirst().orElse(null);
+                if (currentState != null) {
+                    City existingCity = cityRepository.findById(dto.getIbgeId()).orElse(null);
+                    if(existingCity == null){
+                        cityToAdd = City.builder().ibgeId(dto.getIbgeId())
+                                .state(currentState)
+                                .name(dto.getName()).capital(dto.getCapital())
+                                .longitude(new BigDecimal(dto.getLongitude()))
+                                .latitude(new BigDecimal(dto.getLatitude()))
+                                .nameWithOutAccent(dto.getNameWithOutAccent())
+                                .alternativaName(dto.getAlternativaName())
+                                .microRegion(dto.getMicroRegion())
+                                .mesoRegion(dto.getMesoRegion()).build();
+                        cityRepository.save(cityToAdd);
+                        messageEncapsuling.setMessage("Sucesso ao Cadastrar cidade!");
+                    }else{
+                        messageEncapsuling.setMessage("ERRO: CIDADE JÁ EXISTE");
+                    }
+                }else{
+                    messageEncapsuling.setMessage("ERRO: ESTADO INVÁLIDO!");
+                }
+            }else{
+                messageEncapsuling.setMessage("ERRO! NÃO HÁ ESTADOS!");
+            }
+        } catch (Exception e) {
+            throw e;
+        }
+        return messageEncapsuling;
     }
 }

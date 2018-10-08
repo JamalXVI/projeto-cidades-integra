@@ -20,7 +20,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatSelectModule} from '@angular/material/select';
 import {MatIconModule} from '@angular/material/icon';
-import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule } from '@angular/material';
+import { MatTableModule, MatPaginatorModule, MatSortModule, MatInputModule, MatCardModule, MatCheckboxModule } from '@angular/material';
 
 
 import { AppComponent } from './app.component';
@@ -30,6 +30,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import { CitiesTableComponent } from './cities-table/cities-table.component';
 import { CuriositiesComponent } from './curiosities/curiosities.component';
+import { AddCityComponent } from './add-city/add-city.component';
 
 /** Add Fort-Awesome icons into the library */
 library.add(faSearch, faCheckCircle);
@@ -41,7 +42,8 @@ library.add(faSearch, faCheckCircle);
     HomeComponent,
     LoadingDialogComponent,
     CitiesTableComponent,
-    CuriositiesComponent
+    CuriositiesComponent,
+    AddCityComponent
   ],
   imports: [
     BrowserModule,
@@ -57,6 +59,8 @@ library.add(faSearch, faCheckCircle);
     MatSortModule,
     MatIconModule,
     MatInputModule,
+    MatCardModule,
+    MatCheckboxModule,
     AppRoutingModule,
     FormsModule,
     ReactiveFormsModule,

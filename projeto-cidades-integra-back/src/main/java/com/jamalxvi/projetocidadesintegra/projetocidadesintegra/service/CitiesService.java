@@ -1,5 +1,6 @@
 package com.jamalxvi.projetocidadesintegra.projetocidadesintegra.service;
 
+import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.dto.CityDto;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.MessageEncapsuling;
 
 public interface CitiesService {
@@ -37,4 +38,18 @@ public interface CitiesService {
      * @throws Exception
      */
     public MessageEncapsuling orderByNameOnlyCapitals() throws Exception;
+
+    /**
+     * Order a List of Cities filtered by state.
+     * @return MessageEncapsuling object containing the city ordered by name
+     * @throws Exception
+     */
+    public MessageEncapsuling selectByState(Long stateId) throws Exception;
+
+    /**
+     * Add a city to repository
+     * @return MessageEncapsuling object containing the city ordered by name
+     * @throws Exception
+     */
+    public MessageEncapsuling addCity(CityDto dto) throws Exception;
 }

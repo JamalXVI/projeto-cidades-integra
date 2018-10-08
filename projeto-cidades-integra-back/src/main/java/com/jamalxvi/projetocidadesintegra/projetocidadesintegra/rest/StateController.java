@@ -38,4 +38,23 @@ public class StateController {
         }
         return messageEncapsuling;
     }
+
+    /**
+     * get all states
+     * @param response the HttpResponse object, used to change http status code
+     * @return the MessageEncapsuling containing the possible error, object, success messages or
+     * warnings
+     */
+    @RequestMapping(method = GET, value = "/findAll")
+    public MessageEncapsuling findAll(HttpServletResponse response) {
+        MessageEncapsuling messageEncapsuling = new MessageEncapsuling();
+        try {
+            messageEncapsuling = stateService.findAll();
+        } catch (Exception e) {
+            messageEncapsuling.setMessage("ERRO: AO TENTAR BUSCAR AS CIDADES ORDENADAS");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        return messageEncapsuling;
+    }
+
 }

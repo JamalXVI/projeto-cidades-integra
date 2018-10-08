@@ -10,6 +10,7 @@ import { Endpoints } from "../endpoints.enum";
 import { MessageEncapsuling } from '../models/message-encapsuling.model';
 import { LoadingService } from './loading.service';
 import { City } from '../models/city.model';
+import { CityDto } from '../models/city-dto.model';
 
 @Injectable({ providedIn: 'root' })
 export class CityService {
@@ -47,6 +48,34 @@ export class CityService {
             .pipe(map(res => new MessageEncapsuling<Number>(res)),
                 catchError((error: any) => {
                     this.snackBar.open((<MessageEncapsuling<Number>>error.error).message.toString());
+                    return Observable.throw(error);
+                }), finalize(() => this.loadingService.unLoad()));
+    }
+
+    /**
+     * Get a specific city
+     * @return the MessageEncapsuling containing the selected city
+     */
+    public getCity(ibgeId: Number): Observable<MessageEncapsuling<City>> {
+        this.loadingService.setLoading();
+        return this.http.get(Endpoints.SELECTED_CITY, { params: { "ibgeId": ibgeId.toString() } })
+            .pipe(map(res => new MessageEncapsuling<City>(res), ibgeId),
+                catchError((error: any) => {
+                    this.snackBar.open((<MessageEncapsuling<City>>error.error).message.toString());
+                    return Observable.throw(error);
+                }), finalize(() => this.loadingService.unLoad()));
+    }
+    /**
+     * Send an String-encoded file to the UPLOAD endpoint and expects no payload of return,
+     * just the system message
+     * @param csvBase64 the String enconded file
+     */
+    public add(dto: CityDto): Observable<MessageEncapsuling<any>> {
+        this.loadingService.setLoading();
+        return this.http.post(Endpoints.ADD_CITY.toString(), dto)
+            .pipe(map(res => new MessageEncapsuling<any>(res)),
+                catchError((error: any) => {
+                    this.snackBar.open((<MessageEncapsuling<any>>error.error).message.toString());
                     return Observable.throw(error);
                 }), finalize(() => this.loadingService.unLoad()));
     }

@@ -10,6 +10,7 @@ import { Endpoints } from "../endpoints.enum";
 import { MessageEncapsuling } from '../models/message-encapsuling.model';
 import { LoadingService } from './loading.service';
 import { StateCounterDto } from '../models/state-counter-dto.model';
+import { State } from '../models/state.model';
 
 @Injectable({ providedIn: 'root' })
 export class StateService{
@@ -31,6 +32,19 @@ export class StateService{
         .pipe(map(res => new MessageEncapsuling<StateCounterDto[]>(res)),
         catchError((error: any) => {
             this.snackBar.open((<MessageEncapsuling<StateCounterDto[]>>error.error).message.toString());
+            return Observable.throw(error);
+        }), finalize(() => this.loadingService.unLoad()));
+    }
+    /**
+     * Return all the states
+     * @returns the MessageEncapsuling containing the highest and lowest
+     */
+    public getAll(): Observable<MessageEncapsuling<State[]>>{
+        this.loadingService.setLoading();
+        return this.http.get(Endpoints.ALL_STATES)
+        .pipe(map(res => new MessageEncapsuling<State[]>(res)),
+        catchError((error: any) => {
+            this.snackBar.open((<MessageEncapsuling<State[]>>error.error).message.toString());
             return Observable.throw(error);
         }), finalize(() => this.loadingService.unLoad()));
     }

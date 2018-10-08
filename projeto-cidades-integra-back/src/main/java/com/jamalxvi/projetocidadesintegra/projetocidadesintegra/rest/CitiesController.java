@@ -1,13 +1,11 @@
 package com.jamalxvi.projetocidadesintegra.projetocidadesintegra.rest;
 
+import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.dto.CityDto;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.MessageEncapsuling;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.service.CitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -47,6 +45,31 @@ public class CitiesController {
         } else {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             messageEncapsuling.setMessage("ERRO: ARQUIVO INEXISTENTE");
+        }
+        return messageEncapsuling;
+    }
+
+
+    /***
+     * This endpoint has the responsability of add a city
+     * @param dto the dto containing the city to add
+     * @param response the MessageEncapsuling containing the possible error, success messages or
+     * warnings
+     * @return
+     */
+    @RequestMapping(method = POST, value = "/cities/add")
+    public MessageEncapsuling uploadCSV(@RequestBody CityDto dto, HttpServletResponse response) {
+        MessageEncapsuling messageEncapsuling = new MessageEncapsuling();
+        if (dto != null && dto.getIbgeId() != null) {
+            try {
+                messageEncapsuling = citiesService.addCity(dto);
+            } catch (Exception e) {
+                messageEncapsuling.setMessage("ERRO: AO TENTAR CONVERTER ENTIDADE");
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            messageEncapsuling.setMessage("ERRO: ENTIDADE INEXISTENTE");
         }
         return messageEncapsuling;
     }
@@ -116,13 +139,35 @@ public class CitiesController {
      * @return the MessageEncapsuling containing the possible error, success messages or
      * warnings
      */
-    @RequestMapping(method = GET, value = "/cities/getId/{ibgeId}")
-    public MessageEncapsuling getCount(@PathVariable("ibgeId") String ibgeIdString,
+    @RequestMapping(method = GET, value = "/cities/getId")
+    public MessageEncapsuling getCount(@RequestParam("ibgeId") String ibgeIdString,
                                        HttpServletResponse response) {
         MessageEncapsuling messageEncapsuling = new MessageEncapsuling();
         try {
             Long ibgeId = Long.valueOf(ibgeIdString);
             messageEncapsuling = citiesService.getCity(ibgeId);
+        } catch (Exception e) {
+            messageEncapsuling.setMessage("ERRO: AO TENTAR BUSCAR A CIDADE");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+        return messageEncapsuling;
+    }
+
+    /**
+     * return a list of cities filtered by state id
+     *
+     * @param stateIdString the id of the state
+     * @param response the HttpResponse object, used to change http status code
+     * @return the MessageEncapsuling containing the possible error, success messages or
+     * warnings
+     */
+    @RequestMapping(method = GET, value = "/cities/stateFilter")
+    public MessageEncapsuling getCitiesByState(@RequestParam("stateId") String stateIdString,
+                                       HttpServletResponse response) {
+        MessageEncapsuling messageEncapsuling = new MessageEncapsuling();
+        try {
+            Long stateId = Long.valueOf(stateIdString);
+            messageEncapsuling = citiesService.selectByState(stateId);
         } catch (Exception e) {
             messageEncapsuling.setMessage("ERRO: AO TENTAR BUSCAR A CIDADE");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

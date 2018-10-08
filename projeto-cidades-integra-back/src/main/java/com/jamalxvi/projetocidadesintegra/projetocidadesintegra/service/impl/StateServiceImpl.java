@@ -1,6 +1,7 @@
 package com.jamalxvi.projetocidadesintegra.projetocidadesintegra.service.impl;
 
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.dto.StateCounterDto;
+import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.City;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.MessageEncapsuling;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.models.State;
 import com.jamalxvi.projetocidadesintegra.projetocidadesintegra.repository.StateRepository;
@@ -37,6 +38,18 @@ public class StateServiceImpl implements StateService {
             dto.add(highest);
             dto.add(lowest);
             message.setPayload(dto);
+        }else{
+            message.setMessage("ERRO: LISTA VAZIA!");
+        }
+        return message;
+    }
+
+    @Override
+    public MessageEncapsuling<List<State>> findAll() {
+        MessageEncapsuling<List<State>> message = new MessageEncapsuling();
+        List<State> payload = stateRepository.findAll();
+        if (payload.size() > 0){
+            message.setPayload(payload);
         }else{
             message.setMessage("ERRO: LISTA VAZIA!");
         }

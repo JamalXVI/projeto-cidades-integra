@@ -1,0 +1,89 @@
+<div class="main" *ngIf="!pageError">
+  <div class="before-form">
+    <span class="parent" (click)='returnList()'>Usuários</span>
+    <span>></span>
+    <span>Adicionar</span>
+  </div>
+  <form [formGroup]="form" (ngSubmit)="sendForm()">
+    <div class="main">
+      <mat-card>
+        <mat-card-content>
+          <mat-form-field>
+            <input matInput placeholder="ibgeId" formControlName="ibgeId" [errorStateMatcher]="matcher" type="number" />
+            <mat-icon matPrefix>format_list_numbered</mat-icon>
+            <mat-hint *ngIf="form.controls['ibgeId'].pristine">Digite um Id</mat-hint>
+            <mat-error *ngIf="form.controls['ibgeId'].hasError('required') && !form.controls['ibgeId'].hasError('pattern') && !form.controls['ibgeId'].hasError('alreadyExists')">
+              É sério, é só digitar um Id certo.
+            </mat-error>
+            <mat-error *ngIf="form.controls['ibgeId'].hasError('pattern') && !form.controls['ibgeId'].hasError('alreadyExists')">
+              Um Id só pode conter números sem pontos ou vírgulas.
+            </mat-error>
+            <mat-error *ngIf="form.controls['ibgeId'].hasError('alreadyExists')">
+              Este id já existe, por favor digite um outro.
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Nome" formControlName="name" [errorStateMatcher]="matcher" />
+            <mat-icon matPrefix>supervised_user_circle</mat-icon>
+            <mat-hint *ngIf="!form.controls['ibgeId'].pristine && form.controls['name'].pristine">Digite o nome da cidade</mat-hint>
+            <mat-error *ngIf="form.controls['name'].hasError('minlength') && !form.controls['name'].hasError('required')">
+              O nome precisa de no mínimo 3 dígitos
+            </mat-error>
+            <mat-error *ngIf="form.controls['name'].hasError('required')">
+              Você precisa preencher o nome
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Nome sem Acento" formControlName="nameWithOutAccent" [errorStateMatcher]="matcher" />
+            <mat-hint *ngIf="!form.controls['name'].pristine && form.controls['nameWithOutAccent'].pristine">Digite o
+              nome sem acento</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Nome Alternativo" formControlName="alternativaName" [errorStateMatcher]="matcher" />
+            <mat-hint *ngIf="!form.controls['nameWithOutAccent'].pristine && form.controls['alternativaName'].pristine">Digite o nome alternativo</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Longitude" formControlName="longitude" type="number" [errorStateMatcher]="matcher" />
+            <mat-hint *ngIf="!form.controls['alternativaName'].pristine && form.controls['longitude'].pristine">Digite a Longitude</mat-hint>
+            <mat-error *ngIf="form.controls['longitude'].hasError('required')">
+              Você precisa preencher a Longitude
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Latitude" formControlName="latitude" type="number" [errorStateMatcher]="matcher" />
+            <mat-hint *ngIf="!form.controls['longitude'].pristine && form.controls['latitude'].pristine">Digite a Latitude</mat-hint>
+            <mat-error *ngIf="form.controls['latitude'].hasError('required')">
+              Você precisa preencher a Latitude
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Micro Região" formControlName="microRegion" [errorStateMatcher]="matcher" />
+            <mat-hint *ngIf="!form.controls['latitude'].pristine && form.controls['microRegion'].pristine">Digite a Micro Região</mat-hint>
+          </mat-form-field>
+          <mat-form-field>
+            <input matInput placeholder="Meso Região" formControlName="mesoRegion" [errorStateMatcher]="matcher" />
+            <mat-hint *ngIf="!form.controls['microRegion'].pristine && form.controls['mesoRegion'].pristine">Digite a Meso Região</mat-hint>
+          </mat-form-field>
+
+          <mat-checkbox formControlName="capital">Capital</mat-checkbox>
+
+          <mat-form-field>
+            <mat-select placeholder="Selecione um Estado" formControlName='stateId'>
+              <mat-option *ngFor="let state of states" [value]="state.id">
+                {{ state.uf }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-raised-button type="submit" [disabled]="form.invalid">ADICIONAR</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </form>
+</div>
+<div class="main" *ngIf="pageError">
+  <h2 class="mat-display-1">Ah Não!</h2>
+  <p>Algo deu errado. Verifique se existem estados já preenchidos.</p>
+</div>
